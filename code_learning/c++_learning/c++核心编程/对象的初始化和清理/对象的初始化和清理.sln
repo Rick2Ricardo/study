@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "对象的初始化和清理", "对象的初始化和清理.vcxproj", "{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Debug|x64.ActiveCfg = Debug|x64
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Debug|x64.Build.0 = Debug|x64
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Debug|x86.ActiveCfg = Debug|Win32
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Debug|x86.Build.0 = Debug|Win32
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Release|x64.ActiveCfg = Release|x64
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Release|x64.Build.0 = Release|x64
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Release|x86.ActiveCfg = Release|Win32
+		{964E3B52-95A1-473C-85DB-DFEBAE8EB5DF}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A4101AC-94CD-4B22-8B49-2A64888E59DC}
+	EndGlobalSection
+EndGlobal
