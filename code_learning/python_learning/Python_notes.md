@@ -1,18 +1,3 @@
-# Python学习
-
-## 3 Python的开发工具的介绍及下载
-
-### 3.1 python如何和计算机交流
-
-- python解释器
-- pycharm编译器
-
-### 3.2 python解释器的介绍及下载
-
-http://www.python.org/   官网
-
-http://www.python.org/downloads/release/python-381/
-
 ## 第一阶段
 
 ### 第一章
@@ -25,21 +10,17 @@ http://www.python.org/downloads/release/python-381/
 
 出现>>>便可开始输入python程序
 
-![image-20231218204904116](C:\Users\苏思远\AppData\Roaming\Typora\typora-user-images\image-20231218204904116.png)
+![image-20240809221948543](Python_notes.assets/image-20240809221948543.png)
 
 #### 第二个Python程序
 
 新建一个记事本
 
-![image-20231218210406168](C:\Users\苏思远\AppData\Roaming\Typora\typora-user-images\image-20231218210406168.png)
-
 在其中编写一段程序
-
-![image-20231218210334776](C:\Users\苏思远\AppData\Roaming\Typora\typora-user-images\image-20231218210334776.png)
 
 在命令行使用python调用这个文本
 
-![image-20231218210539102](C:\Users\苏思远\AppData\Roaming\Typora\typora-user-images\image-20231218210539102.png)
+
 
 
 
