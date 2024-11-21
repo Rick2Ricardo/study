@@ -84,7 +84,105 @@
 | DQL  | Data Query Language        | 数据查询语言，用来查询数据库中表的记录                 |
 | DCL  | Data Control Language      | 数据控制语言，用来创建数据库用户、控制数据库的访问权限 |
 
+#### 3）DDL
 
+> ### DDL-数据库操作
+>
+> #### 1）查询
+>
+> ##### **查询所有数据库**
+>
+> ```mysql
+> SHOW DATABASES;
+> ```
+>
+> ![image-20241120104557104](mysql.assets/image-20241120104557104.png)
+>
+> ##### **查询当前数据库**
+>
+> ```mysql
+> SELECT DATABASE();
+> ```
+>
+> #### 2）创建
+>
+> ```mysql
+> CREATE DATABASE [IF NOT EXIST] 数据库名 [DEFAULT 字符集][COLLATE 排序规则];
+> ```
+>
+> ![image-20241120104859113](mysql.assets/image-20241120104859113.png)
+>
+> ![image-20241120105249142](mysql.assets/image-20241120105249142.png)
+>
+> ![image-20241120105809434](mysql.assets/image-20241120105809434.png)
+>
+> ![image-20241120110010720](mysql.assets/image-20241120110010720.png)
+>
+> ![image-20241120110355252](mysql.assets/image-20241120110355252.png)
+>
+> #### 3)删除
+>
+> ```mysql
+> DROP DATABASE [IF EXISTS]数据库名；
+> ```
+>
+> ![image-20241120110742163](mysql.assets/image-20241120110742163.png)
+>
+> #### 4)使用
+>
+> ```mysql
+> USE 数据库名
+> ```
+>
+> ![image-20241120111105884](mysql.assets/image-20241120111105884.png)
+>
+> ### DDL-表操作-查询
+>
+> #### 查询当前数据库所有的表
+>
+> ```mysql
+> SHOW TABLES
+> ```
+>
+> ![image-20241120111927638](mysql.assets/image-20241120111927638.png)
+>
+> #### 查询表结构
+>
+> ```mysql
+> DESC 表名
+> ```
+>
+> ![image-20241120154000236](mysql.assets/image-20241120154000236.png)
+>
+> #### 查询指定表的建表语句
+>
+> ```mysql
+> SHOW CREATE TABLE 表名
+> ```
+>
+> ![image-20241120154436693](mysql.assets/image-20241120154436693.png)
+>
+> ### DDL-表结构-创建
+>
+> ```mysql
+> CREATE TABLE 表名(
+> 	字段1 字段1类型[COMMENT 字段1注释]，
+> 	字段2 字段2类型[COMMENT 字段1注释]，
+> 	字段3 字段3类型[COMMENT 字段1注释]，
+> 	……
+> 	字段n 字段n类型[COMMENT 字段1注释]，
+> )[COMMENT 表注释];
+> ```
+>
+> 注意：[……]为可选参数，最后一个字段后面没有逗号
+>
+> ![image-20241120153940796](mysql.assets/image-20241120153940796.png)
+>
+> ### DDL-表操作-数据类型
+>
+> MySQL中的数据类型有很多，主要分为三类：数值类型、字符串类型、日期时间类型
+>
+> 参照MySQL数据类型。xlsx
 
 ### 3 函数
 
