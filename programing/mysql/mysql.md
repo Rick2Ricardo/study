@@ -68,26 +68,28 @@
 
 #### 1）SQL通用语法
 
-1. SQL语句可以单行或多行书写，以分号结尾。
-2. SQL语句可以使用空格/缩进来增强语句的可读性
-3. MySQL数据库的SQL语句不区分大小写，关键字建议使用大写。
-4. 注释：
-   + 单行注释：-- 注释内容 或 # 注释内容（MySQL特有）
-   + 多行注释：/\*注释内容\*/
+> 1. SQL语句可以单行或多行书写，以分号结尾。
+> 2. SQL语句可以使用空格/缩进来增强语句的可读性
+> 3. MySQL数据库的SQL语句不区分大小写，关键字建议使用大写。
+> 4. 注释：
+>    + 单行注释：-- 注释内容 或 # 注释内容（MySQL特有）
+>    + 多行注释：/\*注释内容\*/
+>
 
 #### 2）SQL分类
 
-| 分类 | 全称                       | 说明                                                   |
-| ---- | -------------------------- | ------------------------------------------------------ |
-| DDL  | Data Definition Language   | 数据定义语言，用来定义数据库对象（数据库，表，字段）   |
-| DML  | Data Manipulation Language | 数据操作语言，用来对数据库表中的数据进行增删改         |
-| DQL  | Data Query Language        | 数据查询语言，用来查询数据库中表的记录                 |
-| DCL  | Data Control Language      | 数据控制语言，用来创建数据库用户、控制数据库的访问权限 |
-
-#### 3）DDL
-
-> ### DDL-数据库操作
+> | 分类 | 全称                       | 说明                                                   |
+> | ---- | -------------------------- | ------------------------------------------------------ |
+> | DDL  | Data Definition Language   | 数据定义语言，用来定义数据库对象（数据库，表，字段）   |
+> | DML  | Data Manipulation Language | 数据操作语言，用来对数据库表中的数据进行增删改         |
+> | DQL  | Data Query Language        | 数据查询语言，用来查询数据库中表的记录                 |
+> | DCL  | Data Control Language      | 数据控制语言，用来创建数据库用户、控制数据库的访问权限 |
 >
+
+#### 3）DDL(Data Definition Language):数据定义语言
+
+##### 1、DDL-数据库操作
+
 > #### 1）查询
 >
 > ##### **查询所有数据库**
@@ -136,6 +138,9 @@
 >
 > ![image-20241120111105884](mysql.assets/image-20241120111105884.png)
 >
+
+##### 2、DDL-表操作
+
 > ### DDL-表操作-查询
 >
 > #### 查询当前数据库所有的表
@@ -183,10 +188,520 @@
 > MySQL中的数据类型有很多，主要分为三类：数值类型、字符串类型、日期时间类型
 >
 > 参照MySQL数据类型。xlsx
+>
+> ### DDL-表操作-修改
+>
+> #### 添加字段
+>
+> ```mysql
+> ALTER TABLE 表名 ADD 类型(长度)[COMMENT 注释][约束]
+> ```
+>
+> **案例：**
+>
+> ```mysql
+> ALTER TABLE emp ADD nickname varchar(20) COMMENT '昵称';
+> ```
+>
+> #### 修改数据类型
+>
+> ```mysql
+> ALTER TABLE 表名 MODIFY 字段名 新数据类型(长度);
+> ```
+>
+> #### 修改字段名和字段类型
+>
+> ````mysql
+> ALTER TABLE 表名 CHANGE 旧字段名 新字段名 类型(长度)[COMMENT注释][约束];
+> ````
+>
+> 将user表中的name改名为username ，类型为varchar(30)
+>
+> ```mysql
+> alter table user change name username varchar(30) comment '用户名'
+> ```
+>
+> ![image-20241124224146171](mysql.assets/image-20241124224146171.png)
+>
+> #### 删除字段
+>
+> ```mysql
+> ALTER TABLE 表名 DROP 字段名;
+> ```
+>
+> 案例：将emp表的字段username删除
+>
+> ```
+> alter table user drop username;
+> ```
+>
+> ![image-20241124224748624](mysql.assets/image-20241124224748624.png)
+>
+> #### 修改表名
+>
+> ```mysql
+> ALTER TABLE 表名 RENAME TO 新表名
+> ```
+>
+> **案例：将user改名为gays**
+>
+> ```mysql
+> alter table user rename to gays;
+> ```
+>
+> ![image-20241124225224791](mysql.assets/image-20241124225224791.png)
+>
+> #### 删除表
+>
+> ```mysql
+> DROP TABLE [IF EXISTS] 表名;
+> ```
+>
+> ![image-20241124230121688](mysql.assets/image-20241124230121688.png)
+>
+> #### 删除指定表，并重新创建该表
+>
+> ```mysql
+> TRUNCATE TABLE 表名;
+> ```
+>
+> ![image-20241124231055645](mysql.assets/image-20241124231055645.png)
+
+##### 3、DDL-总结
+
+> ##### **1、DDL数据库操作**
+>
+> ```mysql
+> SHOW DATABASES;
+> CREATE DATABASE 数据库名;
+> USE 数据库名;
+> SELECT DATABASE();
+> DROP DATABASE 数据库名;
+> ```
+>
+> ##### **2、DDL-表操作**
+>
+> ```mysql
+> SHOW TABLES;
+> CREATE TABLE 表名(字段 字段类型，字段 字段类型);
+> DESC 表名;
+> SHOW CREATE TABLE 表名;
+> ALTER TABLE 表名 ADD/MODIFY/CHANGE/DROP/RENAME TO……;
+> DROP TABLE 表名;
+> ```
+
+#### 4)DML(Data Manipulation Language):数据操作语言
+
+##### 1、DML介绍
+
+> DML英文全称是Data Manipulation Language(数据操作语言)，用来对数据库中的数据记录进行增删改操作。
+>
+> + **添加数据（INSERT）**
+> + **修改数据（UPDATE）**
+> + **删除数据（DELETE）**
+
+##### 2、DML添加数据
+
+> **1.给指定字段添加数据**
+>
+> ```mysql
+> INSERT INTO 表名(字段名1,字段名2,……) VALUES(值1,值2);
+> ```
+>
+> ![image-20241204101249800](mysql.assets/image-20241204101249800.png)
+>
+> ![image-20241204101323998](mysql.assets/image-20241204101323998.png)
+>
+> **2.给全部字段添加数据**
+>
+> ```mysql
+> INSERT INTO 表名 VALUES(值1,值2,……);
+> ```
+>
+> ![image-20241204101534683](mysql.assets/image-20241204101534683.png)
+>
+> **3.批量添加数据**
+>
+> ```mysql
+> INSERT INTO 表名(字段名1,字段名2，……)VALUES(值1，值2.……),(值1，值2.……),(值1，值2.……);
+> ```
+>
+> ```mysql
+> INSERT INTO 表名 VALUES(值1,值3,……),(值1,值3,……),(值1,值3,……);
+> ```
+>
+> ![image-20241204101904361](mysql.assets/image-20241204101904361.png)
+>
+> 注意：
+>
+> + 插入数据时，指定的字段顺序需要与值的顺序是一一对应的。
+> + 字符串的日期型数据应该包含在引号中。
+> + 插入的数据大小，应该在字段的规定范围内。
+>
+> 最终运行结果
+>
+> ![image-20241204101940432](mysql.assets/image-20241204101940432.png)
+
+##### 3、DML-修改数据
+
+> ```mysql
+> UPDATE 表名 SET 字段名1=值1，字段名2=值2，……[WHERE 条件];
+> ```
+>
+> 注意：修改语句的条件可以有，也可以没有，如果没有条件，则会修改整张表的所有数据
+>
+> ![image-20241204103423954](mysql.assets/image-20241204103423954.png)
+>
+> ![image-20241204103525596](mysql.assets/image-20241204103525596.png)
+
+##### 4、DML-删除数据
+
+> ```mysql
+> DELETE FROM 表名 [WHERE 条件];
+> ```
+>
+> 注意：
+>
+> + DELETE语句的条件可以有，也可以没有，如果没有条件，则会删除整张表所有的数据。
+> + DELETE语句不能删除某一个字段的值（可以使用UPDTAE）。
+>
+> ![image-20241204104219532](mysql.assets/image-20241204104219532.png)
+>
+> ![image-20241204104258409](mysql.assets/image-20241204104258409.png)
+>
+> ![image-20241204104339946](mysql.assets/image-20241204104339946.png)
+
+##### 5、DML-总结
+
+> ##### 1、添加数据
+>
+> ```mysql
+> INSERT INTO 表名(字段1,字段2，……)VALUES(值1，值2.……)[,(值1，值2.……)……];
+> ```
+>
+> #####  2、修改数据
+>
+> ```mysql
+> UPDATE 表名 SET 字段1=值1,字段2=值2[WHERE 条件];
+> ```
+>
+> ##### 3、删除数据
+>
+> ```mysql
+> DELETE FROM 表名 [WHERE 条件]
+> ```
+
+##### 6)DML以上操作所有代码
+
+> ```mysql
+>  create table tb_user
+>  (
+>      id     int comment '编号',
+>      name   varchar(50) comment '姓名',
+>      age    int comment '年龄',
+>      gender varchar(1) comment '性别'
+>  ) comment '用户表';
+> 
+> drop table tb_user;
+> show tables;
+> 
+> DESC tb_user;
+> 
+> show create table tb_user;
+> 
+> create table employee
+> (
+>     id        int comment '编号',
+>     workno    varchar(10) comment '工号',
+>     name      varchar(10) comment '姓名',
+>     gender    char(1) comment '性别',
+>     age       tinyint unsigned comment '年龄',
+>     idcard    char(18) comment '身份证号',
+>     entrydate date comment '入职时间'
+> )comment '员工表';
+> 
+> drop table employee;
+> 
+> # 往表中插入数据
+> insert into employee(id, workno, name, gender, age, idcard, entrydate)  values (1,'1','Icast','男',10,'123456789012345678','2000-01-01');
+> insert into employee(id, workno, name, gender, age, idcard, entrydate)  values (2,'2','Icast2','男',-1,'123456789012345678','2000-01-01');
+> 
+> # 查询表中的内容
+> 
+> select * from employee;
+> 
+> # 给全部字段添加数据
+> insert into employee values (2,'2','张无忌','男',18,'123456789012345678','2005-01-01');
+> 
+> # 批量添加数据
+> insert into employee values (3,'3','韦一笑','男',38,'123456789012345678','2005-01-01'),(4,'4','赵敏','女',18,'123456789012345678','2005-01-01');
+> insert into employee(id, workno, name, gender, age, idcard, entrydate) values (5,'5','周芷若','女',18,'123456789012345678','2005-01-01'),(6,'6','金庸','男',18,'123456789012345678','2005-01-01');
+> 
+> 
+> 
+> -- 修改id为1的数据，将name修改为shuwin
+> update employee set name = 'shuwin' where id = 1;
+> 
+> -- 修改id为2的数据，将name修改为 鼠鼠，gender修改为男
+> update employee set name ='鼠鼠',gender ='男' where id = 2;
+> 
+> -- 将所有员工的入职日期修改为 2008-01-01
+> update employee set entrydate ='2008-01-01';
+> 
+> 
+> -- 删除 gender 为女的员工
+> delete from employee where gender = '女';
+> 
+> -- 删除所有员工
+> delete from employee;
+> ```
+
+#### 5）DQL(Data Query Language):数据查询语言
+
+##### 1、DQL-介绍
+
+> DQL英文全称是Data Query Language(数据查询语言)，数据查询语言，用来查询数据库中表的记录
+>
+> 查询关键字：**SELECT**
+
+##### 2、DQL-语法
+
+> ```mysql
+> SELECT
+> 	字段列表
+> FROM 
+> 	表名列表
+> WHERE
+> 	条件列表
+> GROUP BY
+> 	分组字段列表
+> HAVING
+> 	分组后条件列表
+> ORDER BY
+> 	排序字段列表
+> LIMIT
+> 	分页参数
+> ```
+
+##### 3、DQL-基本查询
+
+> 1.查询多个字段
+>
+> ```mysql
+> SELECT 字段1，字段2，字段3…… FROM 表名;
+> ```
+>
+> ![image-20241209110455198](mysql.assets/image-20241209110455198.png)
+>
+> ```mysql
+> SELECT * FROM 表名;
+> ```
+>
+> ![image-20241209110519512](mysql.assets/image-20241209110519512.png)
+>
+> 2.设置别名
+>
+> ```mysql
+> SELECT 字段1 [AS 别名1], 字段2 [AS 别名2] …… FROM 表名;
+> ```
+>
+> ![image-20241209111100534](mysql.assets/image-20241209111100534.png)
+>
+> 3.去除重复记录
+>
+> ```mysql
+> SELECT DISTINCT 字段列表 FROM 表名;
+> ```
+>
+> ![image-20241209110703949](mysql.assets/image-20241209110703949.png)
+
+##### 4、DQL-条件查询
+
+> ### 1.语法
+>
+> ```mysql
+> SELECT 字段列表 FROM 表名 WHERE 条件列表;
+> ```
+>
+> ### 2.条件
+>
+> | 比较运算符     | 功能                                       |
+> | -------------- | ------------------------------------------ |
+> | >              | 大于                                       |
+> | >=             | 大于等于                                   |
+> | <              | 小于                                       |
+> | <=             | 小于等于                                   |
+> | =              | 等于                                       |
+> | <>或!=         | 不等于                                     |
+> | BETWEEN……AND…… | 在某个范围之内（含最小值、最大值）         |
+> | IN(……)         | 在in之后的列表中的值，多选一               |
+> | LIKE 占位符    | 模糊匹配（_匹配单个字符，%匹配任意个字符） |
+> | IS NULL        | 是NULL                                     |
+>
+> | 逻辑运算符 | 功能                         |
+> | ---------- | ---------------------------- |
+> | AND 或 &&  | 并且（多个条件同时成立）     |
+> | OR 或 \|\| | 或者（多个条件任意一个成立） |
+> | NOT 或 !   | 非、不是                     |
+>
+> ### 例题
+>
+> ```mysql
+> -- 条件查询
+> -- 1.查询年龄等于 88 的员工
+> select * from emp where age = 88;
+> 
+> -- 2.查询年龄小于 20 的员工
+> select * from emp where age < 20;
+> 
+> -- 3.查询年龄小于等于 20 的员工信息
+> select * from emp where age <= 20;
+> 
+> -- 4.查询没有身份证号的员工信息
+> select * from emp where idcard is null;
+> 
+> -- 5.查询有身份证号的员工信息
+> select * from emp where idcard is not null;
+> 
+> -- 6.查询年龄不等于 88 的员工信息
+> select * from emp where age <> 88;
+> 
+> -- 7.查询年龄在 15岁（包含）到 20岁（包含）之间的员工信息
+> select * from emp where age>=15 and age<=20;
+> select * from emp where age>=15 && age<=20;
+> 
+> select * from emp where age between 15 and 20;
+> 
+> select * from emp where age between 20 and 15;
+> -- 8.查询性别为 女 且年龄小于25岁的员工信息
+> select * from emp where age<25 and gender='女';
+> 
+> -- 9.查询年龄等于 18 或 20 或 40 的员工信息
+> select * from emp where age = 18 || age =20 || age=40;
+> select * from emp where age = 18 or age =20 or age=40;
+> 
+> select * from emp where age in(18,20,40);
+> 
+> -- 10.查询姓名为两个字的员工信息
+> select * from emp where name like '__';
+> 
+> -- 11.查询身份证号最后一位是X的员工信息
+> select * from emp where idcard like'%X';
+> select * from emp where idcard like'_________________X';
+> ```
+>
+> ![image-20241211110521976](mysql.assets/image-20241211110521976.png)
+>
+> ![image-20241211110554573](mysql.assets/image-20241211110554573.png)
+>
+> ![image-20241211110618678](mysql.assets/image-20241211110618678.png)
+>
+> ![image-20241211110716807](mysql.assets/image-20241211110716807.png)
+>
+> ![image-20241211110739505](mysql.assets/image-20241211110739505.png)
+>
+> ![image-20241211110816274](mysql.assets/image-20241211110816274.png)
+>
+> ![image-20241211111006390](mysql.assets/image-20241211111006390.png)
+>
+> ![image-20241211111043298](mysql.assets/image-20241211111043298.png)
+>
+> ![image-20241211111152097](mysql.assets/image-20241211111152097.png)
+>
+> ![image-20241211111323922](mysql.assets/image-20241211111323922.png)
+>
+> ![image-20241211111521778](mysql.assets/image-20241211111521778.png)
+
+##### 5、DQL-聚合函数
+
+> 1.介绍
+>
+> 将一列数据作为一个整体，进行纵向计算
+>
+> 2.常见的聚合函数
+>
+> | 函数  | 功能     |
+> | ----- | -------- |
+> | count | 统计数量 |
+> | max   | 最大值   |
+> | min   | 最小值   |
+> | avg   | 平均值   |
+> | sum   | 求和     |
+>
+> 3.语法
+>
+> ```mysql
+> SELECT 聚合函数（字段列表）FROM 表名;
+> ```
+>
+> 
 
 ### 3 函数
 
 ### 4 约束
+
+#### 1)概述
+
+> **概念：**约束是作用于表中字段上的规则，用于限制存储在表中的数据。
+>
+> **目的：**保证数据库中数据的正确、有效性和完整性。
+>
+> 分类：
+>
+> ![image-20241121093719194](mysql.assets/image-20241121093719194.png)
+
+#### 2）演示
+
+> ### 案例：根据需求，完成表结构的创建
+>
+> ![image-20241121094120975](mysql.assets/image-20241121094120975.png)
+>
+> ```mysql
+> -------------------------------------------约束演示-------------------------------------------------------
+> create table user(
+> 	id int primary key auto_increment comment '主键',
+>     name varchar(10) not null unique comment '姓名',
+>     age int check ( age > 0 && age <= 120 ) comment '年龄',
+>     status char(1) default '1' comment '状态',
+>     gender char(1) comment '性别'
+> ) comment '用户表';
+> -------------------------------------------插入数据-------------------------------------------------------
+> insert into user(name,age,status,gender) values ('Tom1',19,'1','男'),('Tom2',25,'0','男');
+> ```
+>
+> ![image-20241121102101144](mysql.assets/image-20241121102101144.png)
+>
+> ![image-20241121102149736](mysql.assets/image-20241121102149736.png)
+
+#### 3）外键约束
+
+> 概念：外键用来让两张表的数据之间建立连接，聪儿保证数据的一致性和完整性
+>
+> ![image-20241121102549645](mysql.assets/image-20241121102549645.png)
+>
+> 注意：目前上述的两张表，在数据库层面，并未建立外键关联，所以是无法保证数据的一致性和完整性的。
+>
+> ### 语法
+>
+> 添加外键
+>
+> ```
+> CREATE TABLE 表名(
+> 	字段名 数据类型，
+> 	……
+> 	[CONSTRAINT] [外键名称] FOREIGN KEY(外键字段名) REFERENCES 主表(主表列名)
+> )
+> 
+> ALTER TABLE 表名 ADD CONSTRAINT 外键名 FOREIGN KEY(外键字段名)REFERENCES 主表(主表列名);
+> ```
+>
+> 删除外键
+>
+> ```mysql
+> ALTER TABLE 表名 DROP FOREIGN KEY 外键吗名称;
+> ```
+>
+> 
 
 ### 5 多表查询
 
