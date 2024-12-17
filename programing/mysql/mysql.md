@@ -1,4 +1,4 @@
-# 数据库
+#  数据库
 
 ## MYSQL 基础篇
 
@@ -269,7 +269,7 @@
 
 ##### 3、DDL-总结
 
-> ##### **1、DDL数据库操作**
+> ### **1、DDL数据库操作**
 >
 > ```mysql
 > SHOW DATABASES;
@@ -279,7 +279,7 @@
 > DROP DATABASE 数据库名;
 > ```
 >
-> ##### **2、DDL-表操作**
+> ### **2、DDL-表操作**
 >
 > ```mysql
 > SHOW TABLES;
@@ -633,6 +633,201 @@
 > ```mysql
 > SELECT 聚合函数（字段列表）FROM 表名;
 > ```
+>
+> 注意：所有的null值不参与函数的运算
+>
+> 例题：
+>
+> ```mysql
+> -- 聚合函数
+> -- 1.统计该企业员工数量
+> select count(*) from emp;
+> select count(id) from emp;
+> 
+> -- 2.统计该企业员工的平均年龄
+> select avg(age) from emp;
+> 
+> -- 3.统计该企业员工的最大年龄
+> select max(age) from emp;
+> 
+> -- 4.统计该企业员工的最小年龄
+> select min(age) from emp;
+> 
+> -- 5.统计西安地区员工的年龄之和
+> select sum(age) from emp where workaddress = '西安';
+> ```
+>
+> ![image-20241212102052477](mysql.assets/image-20241212102052477.png)
+>
+> ![image-20241212102107008](mysql.assets/image-20241212102107008.png)
+>
+> ![image-20241212102140970](mysql.assets/image-20241212102140970.png)
+>
+> ![image-20241212102211469](mysql.assets/image-20241212102211469.png)
+>
+> ![image-20241212102232192](mysql.assets/image-20241212102232192.png)
+>
+> ![image-20241212102250509](mysql.assets/image-20241212102250509.png)
+
+##### 6、DQL-分组查询
+
+> ### 1.语法
+>
+> ```mysql
+> SELECT 字段列表 FROM 表名 [WHERE 条件] GROUP BY 分段字段名 [HAVING 分组后过滤条件]
+> ```
+>
+> ### 2.where与having区别
+>
+> + 执行时机不同：where是分组之前进行过滤，不满足where条件，不参与分组；而having是分组之后对结果进行过滤。
+> + 判断条件不同：where不能对聚合函数进行判断，而having可以。
+>
+> 注意：
+>
+> + 执行·顺序：where >  聚合函数 > having
+> + 分组之后，查询的字段一般为聚合函数和分组字段，查询其他字段无任何意义。
+>
+> ```mysql
+> -- 分组查询
+> -- 1. 根据性别分组，统计男性员工和女性员工的数量
+> select gender,count(*) from emp group by gender;
+> 
+> -- 2. 根据性别进行分组，统计男性员工和女性员工的平均年龄
+> select gender,avg(age) from emp group by gender;
+> 
+> -- 3. 查询年龄小于45的员工，并根据工作地址分组，获取员工数量大于等于3的工作地址
+> select workaddress ,count(*) address_count from emp where age < 45 group by workaddress having count(*)>=3;
+> ```
+>
+> ![image-20241213115138254](mysql.assets/image-20241213115138254.png)
+>
+> ![image-20241213115221534](mysql.assets/image-20241213115221534.png)
+>
+> ![image-20241213115410493](mysql.assets/image-20241213115410493.png)
+
+##### 7、DQL-排序查询
+
+> ### 1.语法
+>
+> ```mysql
+> SELECT 字段列表 FROM 表名 ORDER BY 字段1 排序方式1,字段2 排序方式2;
+> ```
+>
+> ### 2.排序方式
+>
+> + ASC：升序（默认值）
+> + DESC：降序
+>
+> **注意**：如果是多字段排序，当第一个字段值相同时，才会根据第二个字段进行排序
+>
+> ```mysql
+> -- 排序字段
+> -- 1. 根据年龄对公司的员工进行升序排序
+> select * from emp order by age asc;
+> 
+> select * from emp order by age; # 默认升序
+> 
+> -- 2. 根据入职时间，对员工进行降序排序
+> select * from emp order by entrydate desc;
+> 
+> -- 3. 根据年龄对公司的员工进行升序排序 ，年龄相同，再按照入职时间进行降序排序
+> select * from emp order by age asc ,entrydate desc;
+> 
+> select * from emp order by age ,entrydate desc;
+> ```
+>
+> ![image-20241213123935343](mysql.assets/image-20241213123935343.png)
+>
+> ![image-20241213124049219](mysql.assets/image-20241213124049219.png)
+>
+> ![image-20241213124122305](mysql.assets/image-20241213124122305.png)
+>
+> ![image-20241213124308114](mysql.assets/image-20241213124308114.png)
+
+##### 8、DQL-分页查询
+
+> ### 1.语法
+>
+> ```mysql
+> SELECT 字段列表 FROM 表名 LIMIT 起始索引，查询记录数
+> ```
+>
+> **注意：**
+>
+> + 起始索引从0开始，起始索引=（查询页码-1）*每页显示记录数
+> + 分页查询时数据库的方言，不同数据库有不同的实现，MySQL中是LIMIT
+> + 如果查询的是第一页数据，起始索引可以省略，直接简写为limit 10
+>
+> ### 2.例题
+>
+> ```mysql
+> -- 分页查询
+> -- 1. 查询第1页员工数据，每页展示10条记录
+> select * from emp limit 0,10;
+> 
+> select * from emp limit 10;# 从零开始可以简写
+> 
+> -- 2， 查询第2页员工数据，每页展示10条记录-----------> (页码-1)页展示记录数
+> select * from emp limit 10,10;
+> ```
+>
+> ![image-20241213143557601](mysql.assets/image-20241213143557601.png)
+>
+> ![image-20241213143638845](mysql.assets/image-20241213143638845.png)
+
+##### 9、DQL-案例练习
+
+> ```mysql
+> -- ----------------------- DQL 语句练习 ---------------------------------
+> -- 1. 查询年龄为20，21，22，23岁的女性员工信息
+> select * from emp where gender='女' and age in(20,21,22,23);
+> 
+> -- 2. 查询性别为男，并且年龄再在 20 - 40岁（含）以内的姓名为三个字的员工
+> select * from emp where gender ='男' and (age  between 20 and 40) and name like '___' ;
+> 
+> -- 3. 统计员工表中，年龄小于60岁的，男性员工和女性员工的人数
+> select gender,COUNT(*) from emp where age < 60 group by gender;
+> 
+> -- 4. 查询所有年龄小于等于35岁员工的姓名和年龄，并对查询结果按年龄升序排序，如果年龄相同按入职时间降序排序
+> select name,age from emp where age<=35 order by age asc,entrydate desc;
+> 
+> -- 5. 查询性别为男，且年龄在20-40岁（含）以内的前5个员工信息，对查询的结果按年龄升序排序，年龄相同按入职时间升序排序
+> select * from emp where gender='男' and age between 20 and 40 order by age asc ,entrydate desc limit 5;
+> ```
+
+##### 10、DQL-执行顺序
+
+> ### 执行顺序
+>
+> ![image-20241216115527829](mysql.assets/image-20241216115527829.png)
+>
+> ### 案例
+>
+> ```mysql
+> -- 查询年龄大于15的员工的姓名、年龄，并根据年龄进行升序排序
+> select e.name ename,age eage from emp e where e.age > 15 order by eage asc;
+> 
+> 
+> # from ...
+> # where ...
+> # select ...
+> # order by ...
+> # limit ...
+> ```
+
+##### 11、DQL-总结
+
+> ### 1.DQL语句
+>
+> ![image-20241216120915086](mysql.assets/image-20241216120915086.png)
+
+#### 6)DCL(Data Control Language)：数据控制语言
+
+##### 1、DCL-介绍
+
+> DCL英文全称是Data Control Language(数据控制语言)用来管理数据库用户、控制数据库的访问权限。
+>
+> ![image-20241216121353028](mysql.assets/image-20241216121353028.png)
 >
 > 
 
